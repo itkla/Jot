@@ -5,6 +5,15 @@ let isModified = false;
 let editor;
 let titleUpdatePending = false;
 
+// simple debounce utility
+function debounce(fn, delay) {
+    let timer;
+    return (...args) => {
+        clearTimeout(timer);
+        timer = setTimeout(() => fn(...args), delay);
+    };
+}
+
 const invoke = window.__TAURI__.core.invoke;
 
 // Debounced title update to avoid excessive calls
@@ -36,7 +45,7 @@ function init() {
     }
     
     // optimized event listeners
-    editor.addEventListener('input', onEditorChange, { passive: true });
+    editor.addEventListener('input', debounce(onEditorChange, 100), { passive: true });
     document.addEventListener('keydown', handleKeyboardShortcuts);
     
     // Initialize

@@ -1,6 +1,6 @@
 use tauri::{Manager, Window};
 use tauri_plugin_dialog::{DialogExt, MessageDialogKind};
-use std::fs;
+use tokio::fs;
 use std::path::PathBuf;
 
 // commands for file operations
@@ -43,7 +43,7 @@ async fn open_file_with_confirmation(window: Window, has_unsaved_changes: bool) 
         Some(file_path) => {
             let path_buf = PathBuf::from(file_path.to_string());
             let path_str = path_buf.to_string_lossy().to_string();
-            match fs::read_to_string(&path_buf) {
+            match fs::read_to_string(&path_buf).await {
                 Ok(content) => {
                     // Update title immediately
                     let filename = path_buf.file_name()
@@ -73,7 +73,7 @@ async fn save_file(window: Window, file_path: Option<String>, content: String) -
         }
     };
     
-    match fs::write(&path, content) {
+    match fs::write(&path, content).await {
         Ok(_) => {
             // Update title immediately
             let filename = std::path::Path::new(&path)
@@ -95,7 +95,7 @@ async fn save_as_file(window: Window, content: String) -> Result<Option<String>,
         Some(file_path) => {
             let path_buf = PathBuf::from(file_path.to_string());
             let path_str = path_buf.to_string_lossy().to_string();
-            match fs::write(&path_buf, content) {
+            match fs::write(&path_buf, content).await {
                 Ok(_) => {
                     // Update title immediately
                     let filename = path_buf.file_name()
