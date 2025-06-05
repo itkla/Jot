@@ -1,0 +1,69 @@
+/* Reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #fff;
+    color: #000;
+}
+
+/* Editor - full window */
+#editor {
+    width: 100%;
+    height: 100vh;
+    border: none;
+    outline: none;
+    padding: 20px;
+    font-family: 'Courier New', Monaco, monospace;
+    font-size: 14px;
+    line-height: 1.4;
+    resize: none;
+    background-color: #fff;
+    color: #000;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    /* Performance optimizations */
+    will-change: contents;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    /* Disable spell check for performance */
+    spellcheck: false;
+    autocorrect: off;
+    autocapitalize: off;
+}
+
+#editor::placeholder {
+    color: #999;
+    font-style: italic;
+}
+
+/* Selection highlight */
+#editor::selection {
+    background-color: #316AC5;
+    color: white;
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1e1e1e;
+        color: #fff;
+    }
+    
+    #editor {
+        background-color: #1e1e1e;
+        color: #fff;
+    }
+    
+    #editor::placeholder {
+        color: #666;
+    }
+}
